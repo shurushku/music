@@ -11,10 +11,10 @@
       </li>
     </p>
     <li>
-        <a href="#">LogIn</a>
+        <a href="{% url 'login'%}">LogIn</a>
     </li>
     <li>
-        <a href="#">LogOut</a>
+        <a href="{% url 'logout'%}">LogOut</a>
     </li>
   </ul>
   <ul class="list-unstyled components">
@@ -22,13 +22,13 @@
         <a href="{% url 'music_release:index' %}">Home</a>
     </li>
     <li>
-        <a href="#">Artists</a>
+        <a href="{% url 'music_release:artist-list' %}">Artists</a>
     </li>
     <li>
-        <a href="#">Albums</a>
+        <a href="{% url 'music_release:album-list' %}">Albums</a>
     </li>
     <li>
-        <a href="#">Genres</a>
+        <a href="{% url 'music_release:genre-list' %}">Genres</a>
     </li>
   </ul>
 
