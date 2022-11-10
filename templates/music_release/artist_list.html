@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block name %}
+  <h1>Artist list</h1>
+  <a href="{% url 'music_release:artist-create' %}" class="btn btn-primary link-to-page">
+    <i class="bi bi-plus-circle"></i>
+  </a>
+{% endblock %}
+
+{% block content %}
+  {% if artist_list %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Pseudonym</th>
+          <th scope="col">First name</th>
+          <th scope="col">Last name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for artist in artist_list %}
+          <tr>
+            <th scope="row">{{ artist.id }}</th>
+            <td>{{ artist.pseudonym}}</td>
+            <td>{{ artist.first_name}}</td>
+            <td>{{ artist.last_name}}</td>
+            <td>
+              <a href="{% url 'music_release:artist-update' pk=artist.id %}" class="btn btn-info link-to-page">
+                <i class="bi bi-pencil-fill"></i>
+              </a>
+              <a href="{% url 'music_release:artist-delete' pk=artist.id %}" class="btn btn-danger link-to-page">
+                <i class="bi bi-trash"></i>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no artists</p>
+  {% endif %}
+{% endblock %}
