@@ -1,0 +1,35 @@
+<nav id="sidebar">
+  <div class="sidebar-header">
+    {% load static %}
+    <img src="{% static 'music_release/music_release_logo.svg' %}" alt="">
+  </div>
+
+  <ul class="list-unstyled components">
+    <p>
+      <li>
+          <a href="#">Username</a>
+      </li>
+    </p>
+    <li>
+        <a href="#">LogIn</a>
+    </li>
+    <li>
+        <a href="#">LogOut</a>
+    </li>
+  </ul>
+  <ul class="list-unstyled components">
+    <li>
+        <a href="{% url 'music_release:index' %}">Home</a>
+    </li>
+    <li>
+        <a href="#">Artists</a>
+    </li>
+    <li>
+        <a href="#">Albums</a>
+    </li>
+    <li>
+        <a href="#">Genres</a>
+    </li>
+  </ul>
+
+</nav>
