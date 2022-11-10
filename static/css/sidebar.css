@@ -7,6 +7,7 @@ body {
     font-family: 'Poppins', sans-serif;
     background: rgb(56,11,14);
     background: linear-gradient(128deg, rgba(56,11,14,1) 0%, rgba(26,31,50,1) 38%, rgba(47,58,94,1) 68%, rgba(22,30,49,1) 89%, rgba(21,29,48,1) 100%);
+    color: #dddddd;
 }
 
 p {
@@ -45,6 +46,13 @@ a:focus {
     height: 1px;
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
+}
+
+.table{
+    color: #afafaf
+}
+th{
+    color: #ffffff
 }
 
 /* ---------------------------------------------------
