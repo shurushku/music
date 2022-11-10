@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block name %}
+  <h1>Genre list</h1>
+  <a href="{% url 'music_release:genre-create' %}" class="btn btn-primary link-to-page">
+    <i class="bi bi-plus-circle"></i>
+  </a>
+{% endblock %}
+
+{% block content %}
+
+  {% if genre_list %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Genre</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for genre in genre_list %}
+          <tr>
+            <th scope="row">{{ genre.id }}</th>
+            <td>{{ genre.genre }}</td>
+            <td>
+              <a href="{% url 'music_release:genre-update' pk=genre.id %}" class="btn btn-info link-to-page">
+                <i class="bi bi-pencil-fill"></i>
+              </a>
+              <a href="{% url 'music_release:genre-delete' pk=genre.id %}" class="btn btn-danger link-to-page">
+                <i class="bi bi-trash"></i>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <ul>
+
+    </ul>
+  {% else %}
+    <p>There are no genres</p>
+  {% endif %}
+{% endblock %}
