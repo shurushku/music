@@ -19,7 +19,7 @@ class Genre(models.Model):
 class Song(models.Model):
     title = models.CharField(max_length=255)
     lyrics = models.TextField(blank=True)
-    length = models.IntegerField(validators=[MinValueValidator(0)])
+    length = models.DurationField()
     genres = models.ManyToManyField(to=Genre)
 
     def __str__(self):
@@ -39,9 +39,9 @@ class Artist(AbstractUser):
 class Album(models.Model):
     title = models.CharField(max_length=255)
     artists = models.ManyToManyField(to=AUTH_USER_MODEL)
-    length = models.IntegerField(validators=[MinValueValidator(0)])
+    length = models.DurationField()
     release_date = models.DateField()
-    songs = models.ForeignKey(Song, on_delete=models.CASCADE)
+    songs = models.ForeignKey(Song, on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ["title"]
