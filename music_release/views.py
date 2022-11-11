@@ -1,19 +1,65 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import GenreForm, AlbumForm, ArtistForm
+from .forms import (
+    GenreForm,
+    GenreSearchForm,
+    AlbumForm,
+    AlbumSearchForm,
+    ArtistForm,
+    ArtistSearchForm,
+    SongForm,
+    SongSearchForm,
+)
 from .models import Artist, Album, Genre, Song
 
 
+@login_required
 def index(request):
-    return render(request, "music_release/index.html")
+    num_artists = Artist.objects.count()
+    num_albums = Album.objects.count()
+    num_genres = Genre.objects.count()
+
+    num_visits = request.session.get("num_visits", 0)
+    request.session["num_visits"] = num_visits + 1
+
+    context = {
+        "num_artists": num_artists,
+        "num_albums": num_albums,
+        "num_genres": num_genres,
+        "num_visits": num_visits + 1,
+    }
+
+    return render(request, "music_release/index.html", context=context)
 
 
 # ArtistView
 class ArtistListView(LoginRequiredMixin, generic.ListView):
     model = Artist
+    queryset = Artist.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        pseudonym = self.request.GET.get("pseudonym", "")
+
+        context = super(ArtistListView, self).get_context_data(**kwargs)
+        context["search_form"] = ArtistSearchForm(initial={
+            "pseudonym": pseudonym
+        })
+
+        return context
+
+    def get_queryset(self):
+        form = ArtistSearchForm(self.request.GET)
+
+        if form.is_valid():
+            return self.queryset.filter(
+                pseudonym__icontains=form.cleaned_data["pseudonym"]
+            )
+
+        return self.queryset
 
 
 class ArtistDetailView(LoginRequiredMixin, generic.DetailView):
@@ -41,6 +87,27 @@ class ArtistDeleteView(LoginRequiredMixin, generic.DeleteView):
 # AlbumView
 class AlbumListView(LoginRequiredMixin, generic.ListView):
     model = Album
+    queryset = Album.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        title = self.request.GET.get("title", "")
+
+        context = super(AlbumListView, self).get_context_data(**kwargs)
+        context["search_form"] = AlbumSearchForm(initial={
+            "title": title
+        })
+
+        return context
+
+    def get_queryset(self):
+        form = AlbumSearchForm(self.request.GET)
+
+        if form.is_valid():
+            return self.queryset.filter(
+                title__icontains=form.cleaned_data["title"]
+            )
+
+        return self.queryset
 
 
 class AlbumDetailView(LoginRequiredMixin, generic.DetailView):
@@ -67,6 +134,27 @@ class AlbumDeleteView(LoginRequiredMixin, generic.DeleteView):
 # GenreView
 class GenreListView(LoginRequiredMixin, generic.ListView):
     model = Genre
+    queryset = Genre.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        genre = self.request.GET.get("genre", "")
+
+        context = super(GenreListView, self).get_context_data(**kwargs)
+        context["search_form"] = GenreSearchForm(initial={
+            "genre": genre
+        })
+
+        return context
+
+    def get_queryset(self):
+        form = GenreSearchForm(self.request.GET)
+
+        if form.is_valid():
+            return self.queryset.filter(
+                genre__icontains=form.cleaned_data["genre"]
+            )
+
+        return self.queryset
 
 
 class GenreDetailView(LoginRequiredMixin, generic.DetailView):
@@ -93,6 +181,27 @@ class GenreDeleteView(LoginRequiredMixin, generic.DeleteView):
 # SongView
 class SongListView(LoginRequiredMixin, generic.ListView):
     model = Song
+    queryset = Song.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        title = self.request.GET.get("title", "")
+
+        context = super(SongListView, self).get_context_data(**kwargs)
+        context["search_form"] = SongSearchForm(initial={
+            "title": title
+        })
+
+        return context
+
+    def get_queryset(self):
+        form = SongSearchForm(self.request.GET)
+
+        if form.is_valid():
+            return self.queryset.filter(
+                title__icontains=form.cleaned_data["title"]
+            )
+
+        return self.queryset
 
 
 class SongDetailView(LoginRequiredMixin, generic.DetailView):
@@ -101,13 +210,13 @@ class SongDetailView(LoginRequiredMixin, generic.DetailView):
 
 class SongCreateView(LoginRequiredMixin, generic.CreateView):
     model = Song
-    fields = "__all__"
+    form_class = SongForm
     success_url = reverse_lazy("music_release:song-list")
 
 
 class SongUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Song
-    fields = "__all__"
+    form_class = SongForm
     success_url = reverse_lazy("music_release:song-list")
 
 

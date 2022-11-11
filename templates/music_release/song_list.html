@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block name %}
-  <h1>Album list</h1>
-  <a href="{% url 'music_release:album-create' %}" class="btn btn-primary link-to-page">
+  <h1>Song list</h1>
+  <a href="{% url 'music_release:song-create' %}" class="btn btn-primary link-to-page">
     <i class="bi bi-plus-circle"></i>
   </a>
 {% endblock %}
@@ -11,29 +11,27 @@
   {% block search %}
     {% include "includes/search_form.html" %}
   {% endblock %}
-  {% if album_list %}
+  {% if song_list %}
     <table class="table">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Title</th>
           <th scope="col">Length</th>
-          <th scope="col">Release date</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
-        {% for album in album_list %}
+        {% for song in song_list %}
           <tr>
-            <th scope="row">{{ album.id }}</th>
-            <td><a href="{% url 'music_release:album-detail' pk=album.id %}">{{ album.title}}</a></td>
-            <td>{{ album.length}}</td>
-            <td>{{ album.release_date}}</td>
+            <th scope="row">{{ song.id }}</th>
+            <td><a href="{% url 'music_release:song-detail' pk=song.id %}">{{ song.title}}</a></td>
+            <td>{{ song.length}}</td>
             <td>
-              <a href="{% url 'music_release:album-update' pk=album.id %}" class="btn btn-info link-to-page">
+              <a href="{% url 'music_release:song-update' pk=song.id %}" class="btn btn-info link-to-page">
                 <i class="bi bi-pencil-fill"></i>
               </a>
-              <a href="{% url 'music_release:album-delete' pk=album.id %}" class="btn btn-danger link-to-page">
+              <a href="{% url 'music_release:song-delete' pk=song.id %}" class="btn btn-danger link-to-page">
                 <i class="bi bi-trash"></i>
               </a>
             </td>
@@ -42,6 +40,6 @@
       </tbody>
     </table>
   {% else %}
-    <p>There are no albums</p>
+    <p>There are no songs</p>
   {% endif %}
 {% endblock %}

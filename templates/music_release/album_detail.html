@@ -2,4 +2,44 @@
 
 {% block name %}
   <h1>Album detail</h1>
+    {% load static %}
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="float-left mr-4 ml-3">
+      <img src="{% static 'music_release/album_cover_default.png' %}" alt="" class="img-thumbnail">
+    </div>
+    <div >
+      <strong>Title:</strong><p>{{ album.title }}</p>
+      <strong>Artists:</strong>
+      <p>
+        {% for artist in album.artists.all %}
+          | {{ artist.pseudonym }}
+        {% endfor %}
+      |
+      </p>
+      <strong>Length:</strong><p>{{ album.length }}</p>
+      <strong>Date:</strong><p>{{ album.release_date }}</p>
+    </div>
+  </div>
+  {% if album.songs %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Length</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for song in album.songs.all %}
+          <tr>
+            <td>{{ song.length}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no songs</p>
+  {% endif %}
 {% endblock %}

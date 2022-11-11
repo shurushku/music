@@ -23,28 +23,34 @@
   </ul>
   <ul class="list-unstyled components">
     <li>
-        <a href="{% url 'music_release:index' %}">
-          <i class="bi bi-house"></i>
-          Home
-        </a>
+      <a href="{% url 'music_release:index' %}">
+        <i class="bi bi-house"></i>
+        Home
+      </a>
     </li>
     <li>
-        <a href="{% url 'music_release:artist-list' %}">
-          <i class="bi bi-people"></i>
-          Artists
-        </a>
+      <a href="{% url 'music_release:artist-list' %}">
+        <i class="bi bi-people"></i>
+        Artists
+      </a>
     </li>
     <li>
-        <a href="{% url 'music_release:album-list' %}">
-          <i class="bi bi-vinyl-fill"></i>
-          Albums
-        </a>
+      <a href="{% url 'music_release:album-list' %}">
+        <i class="bi bi-vinyl-fill"></i>
+        Albums
+      </a>
     </li>
     <li>
-        <a href="{% url 'music_release:genre-list' %}">
-          <i class="bi bi-file-music"></i>
-          Genres
-        </a>
+      <a href="{% url 'music_release:song-list' %}">
+        <i class="bi bi-music-note-list"></i>
+        Songs
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'music_release:genre-list' %}">
+        <i class="bi bi-file-music"></i>
+        Genres
+      </a>
     </li>
   </ul>
 

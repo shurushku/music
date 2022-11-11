@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block name %}
   <h1>Delete?</h1>
+{% endblock %}
+
+{% block content %}
   <form action="" method="post">
     {% csrf_token %}
 

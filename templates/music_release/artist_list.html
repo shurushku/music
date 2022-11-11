@@ -8,6 +8,9 @@
 {% endblock %}
 
 {% block content %}
+  {% block search %}
+    {% include "includes/search_form.html" %}
+  {% endblock %}
   {% if artist_list %}
     <table class="table">
       <thead>
