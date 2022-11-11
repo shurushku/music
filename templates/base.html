@@ -14,6 +14,7 @@
     <!-- Add additional CSS in static file -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
   <body>
   {% block body %}
@@ -22,11 +23,9 @@
           {% include "includes/sidebar.html" %}
         {% endblock %}
       <div id="content">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div>
-              {% block name %}{% endblock %}
-            </div>
-        </nav>
+        <div class="content-header">
+          {% block name %}{% endblock %}
+        </div>
         {% block content %}{% endblock %}
       </div>
     </div>
