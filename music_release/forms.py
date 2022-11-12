@@ -31,7 +31,7 @@ class GenreSearchForm(forms.Form):
 
 class AlbumForm(ModelForm):
     artists = forms.ModelMultipleChoiceField(
-        queryset=Artist.objects.all(),
+        queryset=Artist.objects.filter(is_staff=0),
         widget=forms.CheckboxSelectMultiple,
     )
 

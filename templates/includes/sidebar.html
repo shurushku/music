@@ -14,7 +14,7 @@
         </li>
       </p>
       <li>
-        <a href="{% url 'logout'%}">
+        <a href="{% url 'logout'%}?next={{ request.path }}">
           <i class="bi bi-box-arrow-in-left"></i>
           Logout
         </a>

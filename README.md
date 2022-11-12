@@ -2,7 +2,7 @@
 A Django project where an artist can create and modify music releases.
 
 ## You can check it via link below
-
+[Music Service Project deployed to Render](https://music-service-2dkw.onrender.com/)
 
 ### Installation
 Python3 must be installed
