@@ -112,4 +112,3 @@ class SongForm(ModelForm):
         self.fields["length"].widget.attrs.update({"class": "form-control"})
         self.fields["album"].widget.attrs.update({"style": "display: None"})
         self.fields["album"].label = ""
-
