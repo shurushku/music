@@ -14,6 +14,12 @@ pip install -r requirements.txt
 ---
 python manage.py runserver
 ```
+#### Login
+For login you can use:
+```shell
+login: user
+password: user12345
+```
 
 ### Features
 * You can login / logout.
