@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 
 from .models import Genre, Album, Artist, Song
@@ -58,23 +59,23 @@ class AlbumSearchForm(forms.Form):
     )
 
 
-class ArtistForm(ModelForm):
-    class Meta:
+class ArtistForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
         model = Artist
-        fields = ("pseudonym", "first_name", "last_name")
+        fields = UserCreationForm.Meta.fields + (
+            "pseudonym",
+            "first_name",
+            "last_name",
+        )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs.update({"class": "form-control"})
         self.fields["pseudonym"].widget.attrs.update({"class": "form-control"})
         self.fields["first_name"].widget.attrs.update({"class": "form-control"})
         self.fields["last_name"].widget.attrs.update({"class": "form-control"})
-
-    def save(self, commit=True):
-        artist = super(ArtistForm, self).save(commit=False)
-        artist.username = artist.pseudonym.replace(" ", "")
-        if commit:
-            artist.save()
-        return artist
+        self.fields["password1"].widget.attrs.update({"class": "form-control"})
+        self.fields["password2"].widget.attrs.update({"class": "form-control"})
 
 
 class ArtistSearchForm(forms.Form):
@@ -98,19 +99,17 @@ class SongForm(ModelForm):
 
     class Meta:
         model = Song
-        fields = ("title", "lyrics", "length", "genres")
+        fields = ("title", "lyrics", "length", "genres", "album")
 
     def __init__(self, album=None, *args, **kwargs):
+        if album:
+            kwargs.update(initial={
+                'album': Album.objects.get(pk=album)
+            })
         super().__init__(*args, **kwargs)
         self.fields["title"].widget.attrs.update({"class": "form-control"})
         self.fields["lyrics"].widget.attrs.update({"class": "form-control"})
         self.fields["length"].widget.attrs.update({"class": "form-control"})
-        self.album = Album.objects.get(pk=album) if album else None
+        self.fields["album"].widget.attrs.update({"style": "display: None"})
+        self.fields["album"].label = ""
 
-    def save(self, commit=True):
-        song = super(SongForm, self).save(commit=False)
-        if self.album:
-            song.album = self.album
-        if commit:
-            song.save()
-        return song

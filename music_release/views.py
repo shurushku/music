@@ -208,10 +208,7 @@ class SongUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = SongForm
 
     def get_success_url(self):
-        kwargs = {
-            "pk": self.object.album_id
-        }
-        return reverse_lazy("music_release:album-detail", kwargs=kwargs)
+        return reverse_lazy("music_release:song-detail", kwargs=self.kwargs)
 
 
 class SongDeleteView(LoginRequiredMixin, generic.DeleteView):

@@ -26,7 +26,7 @@
         {% for artist in artist_list %}
           <tr>
             <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ artist.pseudonym}}</td>
+            <td><a href="{% url 'music_release:artist-detail' pk=artist.id %}">{{ artist.pseudonym }}</a></td>
             <td>{{ artist.first_name}}</td>
             <td>{{ artist.last_name}}</td>
             <td>

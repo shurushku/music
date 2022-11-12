@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block name %}
+  <h1>Song detail</h1>
+  <div>
+    <a href="{% url 'music_release:artist-update' pk=artist.id %}" class="btn btn-info link-to-page">
+      <i class="bi bi-pencil-fill"></i>
+    </a>
+    <a href="{% url 'music_release:artist-delete' pk=artist.id %}" class="btn btn-danger link-to-page">
+      <i class="bi bi-trash"></i>
+    </a>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <strong>username:</strong> {{ artist.username }}
+  <br>
+  <strong>Pseudonym:</strong> {{ artist.pseudonym }}
+  <br>
+  <strong>Birth name:</strong> {{ artist.last_name }} {{ artist.first_name }}
+  <br><br>
+  <h3>Album List</h3>
+  {% if artist.albums.all %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Length</th>
+          <th scope="col">Release date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for album in artist.albums.all %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><a href="{% url 'music_release:album-detail' pk=album.id %}">{{ album.title}}</a></td>
+            <td>{{ album.length}}</td>
+            <td>{{ album.release_date}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no albums</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block name %}
+  <h1>Song detail</h1>
+  <div>
+    <a href="{% url 'music_release:song-update' pk=song.id %}" class="btn btn-info link-to-page">
+      <i class="bi bi-pencil-fill"></i>
+    </a>
+    <a href="{% url 'music_release:song-delete' pk=song.id %}" class="btn btn-danger link-to-page">
+      <i class="bi bi-trash"></i>
+    </a>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <strong>Title:</strong><p>{{ song.title }} - {{ song.length }}</p>
+  <strong>Album:</strong><p><a href="{% url 'music_release:album-detail' pk=song.album.id %}">{{ song.album }}</a></p>
+  <strong>Genres:</strong><p>{{ song.genres.all| join:", " }}</p>
+  <strong>Lyrics:</strong><p>{{ song.lyrics | linebreaks}}</p>
+{% endblock %}
