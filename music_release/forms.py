@@ -33,14 +33,10 @@ class AlbumForm(ModelForm):
         queryset=Artist.objects.all(),
         widget=forms.CheckboxSelectMultiple,
     )
-    # songs = forms.ModelMultipleChoiceField(
-    #     queryset=Song.objects.all(),
-    #     widget=forms.CheckboxSelectMultiple,
-    # )
 
     class Meta:
         model = Album
-        fields = ("title", "length", "release_date", "artists", "songs")
+        fields = ("title", "length", "release_date", "artists")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -73,6 +69,13 @@ class ArtistForm(ModelForm):
         self.fields["first_name"].widget.attrs.update({"class": "form-control"})
         self.fields["last_name"].widget.attrs.update({"class": "form-control"})
 
+    def save(self, commit=True):
+        artist = super(ArtistForm, self).save(commit=False)
+        artist.username = artist.pseudonym.replace(" ", "")
+        if commit:
+            artist.save()
+        return artist
+
 
 class ArtistSearchForm(forms.Form):
     pseudonym = forms.CharField(
@@ -95,23 +98,19 @@ class SongForm(ModelForm):
 
     class Meta:
         model = Song
-        fields = "__all__"
+        fields = ("title", "lyrics", "length", "genres")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, album=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["title"].widget.attrs.update({"class": "form-control"})
         self.fields["lyrics"].widget.attrs.update({"class": "form-control"})
         self.fields["length"].widget.attrs.update({"class": "form-control"})
+        self.album = Album.objects.get(pk=album) if album else None
 
-
-class SongSearchForm(forms.Form):
-    title = forms.CharField(
-        max_length=255,
-        required=True,
-        label="",
-        widget=forms.TextInput(attrs={
-            "placeholder": "Search by title",
-            "type": "search",
-            "class": "form-control form-input",
-        })
-    )
+    def save(self, commit=True):
+        song = super(SongForm, self).save(commit=False)
+        if self.album:
+            song.album = self.album
+        if commit:
+            song.save()
+        return song

@@ -17,7 +17,6 @@ from .views import (
     GenreCreateView,
     GenreUpdateView,
     GenreDeleteView,
-    SongListView,
     SongDetailView,
     SongCreateView,
     SongUpdateView,
@@ -44,9 +43,8 @@ urlpatterns = [
     path("genres/<int:pk>/update/", GenreUpdateView.as_view(), name="genre-update"),
     path("genres/<int:pk>/delete/", GenreDeleteView.as_view(), name="genre-delete"),
 
-    path("songs/", SongListView.as_view(), name="song-list"),
     path("songs/<int:pk>/", SongDetailView.as_view(), name="song-detail"),
-    path("songs/create/", SongCreateView.as_view(), name="song-create"),
+    path("songs/create/<int:album>/", SongCreateView.as_view(), name="song-create"),
     path("songs/<int:pk>/update/", SongUpdateView.as_view(), name="song-update"),
     path("songs/<int:pk>/delete/", SongDeleteView.as_view(), name="song-delete"),
 ]

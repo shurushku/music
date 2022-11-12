@@ -77,6 +77,31 @@ th{
     transition: all 0.3s;
 }
 
+.btn {
+    border-radius: 50px;
+    background: transparent;
+    border: 2px white solid;
+    font-size: 20px;
+}
+
+.track-list{
+    display: flex;
+    margin: 20px 10px;
+    align-items: center;
+}
+
+.track-list h3{
+    margin: 0 15px 0 0;
+}
+
+.track-list i{
+    height: 100%;
+}
+
+table .btn {
+    border: 0;
+}
+
 /* ---------------------------------------------------
     SEARCH STYLE
 ----------------------------------------------------- */

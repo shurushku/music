@@ -14,7 +14,7 @@
         </li>
       </p>
       <li>
-        <a href="{% url 'logout'%}?next={{request.path}}">
+        <a href="{% url 'logout'%}">
           <i class="bi bi-box-arrow-in-left"></i>
           Logout
         </a>
@@ -38,12 +38,6 @@
       <a href="{% url 'music_release:album-list' %}">
         <i class="bi bi-vinyl-fill"></i>
         Albums
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'music_release:song-list' %}">
-        <i class="bi bi-music-note-list"></i>
-        Songs
       </a>
     </li>
     <li>

@@ -23,7 +23,7 @@
       <tbody>
         {% for genre in genre_list %}
           <tr>
-            <th scope="row">{{ genre.id }}</th>
+            <th scope="row">{{ forloop.counter }}</th>
             <td>{{ genre.genre }}</td>
             <td>
               <a href="{% url 'music_release:genre-update' pk=genre.id %}" class="btn btn-info link-to-page">

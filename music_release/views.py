@@ -12,7 +12,6 @@ from .forms import (
     ArtistForm,
     ArtistSearchForm,
     SongForm,
-    SongSearchForm,
 )
 from .models import Artist, Album, Genre, Song
 
@@ -39,7 +38,8 @@ def index(request):
 # ArtistView
 class ArtistListView(LoginRequiredMixin, generic.ListView):
     model = Artist
-    queryset = Artist.objects.all()
+    queryset = Artist.objects.filter(is_staff=0)
+    paginate_by = 8
 
     def get_context_data(self, *, object_list=None, **kwargs):
         pseudonym = self.request.GET.get("pseudonym", "")
@@ -81,13 +81,14 @@ class ArtistUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class ArtistDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Artist
-    success_url = reverse_lazy("")
+    success_url = reverse_lazy("music_release:artist-list")
 
 
 # AlbumView
 class AlbumListView(LoginRequiredMixin, generic.ListView):
     model = Album
     queryset = Album.objects.all()
+    paginate_by = 8
 
     def get_context_data(self, *, object_list=None, **kwargs):
         title = self.request.GET.get("title", "")
@@ -123,7 +124,9 @@ class AlbumCreateView(LoginRequiredMixin, generic.CreateView):
 class AlbumUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Album
     form_class = AlbumForm
-    success_url = reverse_lazy("music_release:album-list")
+
+    def get_success_url(self):
+        return reverse_lazy("music_release:album-detail", kwargs=self.kwargs)
 
 
 class AlbumDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -135,6 +138,7 @@ class AlbumDeleteView(LoginRequiredMixin, generic.DeleteView):
 class GenreListView(LoginRequiredMixin, generic.ListView):
     model = Genre
     queryset = Genre.objects.all()
+    paginate_by = 8
 
     def get_context_data(self, *, object_list=None, **kwargs):
         genre = self.request.GET.get("genre", "")
@@ -179,31 +183,6 @@ class GenreDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 
 # SongView
-class SongListView(LoginRequiredMixin, generic.ListView):
-    model = Song
-    queryset = Song.objects.all()
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        title = self.request.GET.get("title", "")
-
-        context = super(SongListView, self).get_context_data(**kwargs)
-        context["search_form"] = SongSearchForm(initial={
-            "title": title
-        })
-
-        return context
-
-    def get_queryset(self):
-        form = SongSearchForm(self.request.GET)
-
-        if form.is_valid():
-            return self.queryset.filter(
-                title__icontains=form.cleaned_data["title"]
-            )
-
-        return self.queryset
-
-
 class SongDetailView(LoginRequiredMixin, generic.DetailView):
     model = Song
 
@@ -211,15 +190,30 @@ class SongDetailView(LoginRequiredMixin, generic.DetailView):
 class SongCreateView(LoginRequiredMixin, generic.CreateView):
     model = Song
     form_class = SongForm
-    success_url = reverse_lazy("music_release:song-list")
+
+    def get_form_kwargs(self):
+        kwargs = super(SongCreateView, self).get_form_kwargs()
+        kwargs.update(self.kwargs)
+        return kwargs
+
+    def get_success_url(self):
+        kwargs = {
+            "pk": self.kwargs["album"]
+        }
+        return reverse_lazy("music_release:album-detail", kwargs=kwargs)
 
 
 class SongUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Song
     form_class = SongForm
-    success_url = reverse_lazy("music_release:song-list")
+
+    def get_success_url(self):
+        kwargs = {
+            "pk": self.object.album_id
+        }
+        return reverse_lazy("music_release:album-detail", kwargs=kwargs)
 
 
 class SongDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Song
-    success_url = reverse_lazy("music_release:song-list")
+    success_url = reverse_lazy("music_release:album-list")

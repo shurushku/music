@@ -25,7 +25,7 @@
       <tbody>
         {% for artist in artist_list %}
           <tr>
-            <th scope="row">{{ artist.id }}</th>
+            <th scope="row">{{ forloop.counter }}</th>
             <td>{{ artist.pseudonym}}</td>
             <td>{{ artist.first_name}}</td>
             <td>{{ artist.last_name}}</td>

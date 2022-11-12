@@ -19,24 +19,15 @@
           <th scope="col">Title</th>
           <th scope="col">Length</th>
           <th scope="col">Release date</th>
-          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
         {% for album in album_list %}
           <tr>
-            <th scope="row">{{ album.id }}</th>
+            <th scope="row">{{ forloop.counter }}</th>
             <td><a href="{% url 'music_release:album-detail' pk=album.id %}">{{ album.title}}</a></td>
             <td>{{ album.length}}</td>
             <td>{{ album.release_date}}</td>
-            <td>
-              <a href="{% url 'music_release:album-update' pk=album.id %}" class="btn btn-info link-to-page">
-                <i class="bi bi-pencil-fill"></i>
-              </a>
-              <a href="{% url 'music_release:album-delete' pk=album.id %}" class="btn btn-danger link-to-page">
-                <i class="bi bi-trash"></i>
-              </a>
-            </td>
           </tr>
         {% endfor %}
       </tbody>
